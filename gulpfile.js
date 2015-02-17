@@ -49,11 +49,11 @@ var config = {
     files: {
         index: 'src/index.html',
         template: 'src/**/*.tpl.html',
-        typescript: [
-            'typings/**/*.d.ts',
-            'src/**/*!(test).ts',
-        ],
-        test: 'src/**/*.test.ts',
+        typescript: {
+            src: 'src/**/*!(test).ts',
+            typings: 'typings/**/*.d.ts',
+            test: 'src/**/*.test.ts'
+        },
         sass: 'src/**/*.scss'
     },
     karma: {
@@ -75,7 +75,7 @@ gulp.task('clean', function() {
 });
 
 gulp.task('lint-ts', function() {
-    return gulp.src(config.files.typescript, {cwd: config.paths.client})
+    return gulp.src(config.files.typescript.src, {cwd: config.paths.client})
         .pipe(p.tslint())
         .pipe(p.tslint.report('verbose', {
             emitError: false
@@ -87,7 +87,7 @@ gulp.task('lint-ts', function() {
 ////////////////////////////////////////////////////////////////////////////////
 
 var tsProject;
-gulp.task('build-script', ['lint-ts'], function() {
+gulp.task('build-ts', ['lint-ts'], function() {
 
     // typescript
     if (tsProject == null) {
@@ -97,10 +97,13 @@ gulp.task('build-script', ['lint-ts'], function() {
             target: 'ES5'
         });
     }
-    var tsFiles = config.files.typescript;
+    var tsFiles = [
+        config.files.typescript.src,
+        config.files.typescript.typings
+    ];
     // remove test files
     if (!IS_RELEASE_BUILD) {
-        tsFiles = tsFiles.concat(config.files.test);
+        tsFiles.push(config.files.typescript.test);
     }
 
     var ts = gulp.src(tsFiles, {cwd: config.paths.client})
@@ -189,7 +192,7 @@ gulp.task('build-sass', function() {
         .pipe(gulp.dest(config.paths.style, {cwd: config.paths.build}));
 });
 
-gulp.task('build-index', ['build-script', 'build-sass', 'build-lib'], function() {
+gulp.task('build-index', ['build-ts', 'build-sass', 'build-lib'], function() {
     var files = gulp.src([
         '**/lib*.js',
         '**/scripts*.js',
@@ -200,13 +203,13 @@ gulp.task('build-index', ['build-script', 'build-sass', 'build-lib'], function()
         .pipe(gulp.dest(config.paths.build));
 });
 
-gulp.task('build', ['build-script', 'build-sass', 'build-lib', 'build-index'])
+gulp.task('build', ['build-ts', 'build-sass', 'build-lib', 'build-index'])
 
 ////////////////////////////////////////////////////////////////////////////////
 //  Unit and end-to-end test tasks
 ////////////////////////////////////////////////////////////////////////////////
 
-gulp.task('test-karma', ['build-script', 'build-lib'], function(done){
+gulp.task('test-karma', ['build-ts', 'build-lib'], function(done){
     p.karma.server.start(config.karma, done);
 });
 
