@@ -50,7 +50,10 @@ var config = {
         index: 'src/index.html',
         template: 'src/**/*.tpl.html',
         typescript: {
-            src: 'src/**/*!(test).ts',
+            src: [
+                'src/**/*.module.ts',
+                'src/**/*!(test).ts'
+            ],
             typings: 'typings/**/*.d.ts',
             test: 'src/**/*.test.ts'
         },
@@ -77,7 +80,7 @@ gulp.task('clean', function() {
 gulp.task('lint-ts', function() {
     return gulp.src(config.files.typescript.src, {cwd: config.paths.client})
         .pipe(p.tslint())
-        .pipe(p.tslint.report('verbose', {
+        .pipe(p.tslint.report('full', {
             emitError: false
         }));
 });
@@ -97,10 +100,8 @@ gulp.task('build-ts', ['lint-ts'], function() {
             target: 'ES5'
         });
     }
-    var tsFiles = [
-        config.files.typescript.src,
-        config.files.typescript.typings
-    ];
+    var tsFiles = config.files.typescript.src
+        .concat(config.files.typescript.typings);
     // remove test files
     if (!IS_RELEASE_BUILD) {
         tsFiles.push(config.files.typescript.test);
