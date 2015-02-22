@@ -4,7 +4,8 @@ module.exports = function(config) {
     frameworks: ['jasmine'],
     files: [
       '**/libs.js',
-      '**/scripts.js'
+      '**/scripts.js',
+      '**/tests.js'
     ],
 
     port: 9876,

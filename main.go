@@ -1,24 +1,31 @@
 package main
 
 import (
-	"fmt"
-	"html"
-	"log"
-	"net/http"
+    "fmt"
+    "html"
+    "log"
+    "net/http"
+    "strings"
 
-	"github.com/GeertJohan/go.rice"
+    "github.com/GeertJohan/go.rice"
 )
 
 func api(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "Hello, %q", html.EscapeString(r.URL.Path))
+    fmt.Fprintf(w, "Hello, %q", html.EscapeString(r.URL.Path))
+}
+
+func fileHandler(w http.ResponseWriter, r *http.Request) {
+    url := r.URL.String()
+    if strings.Contains(url, ".") {
+        url = "/"
+    }
+    box := rice.MustFindBox("static")
+    http.StripPrefix(url, http.FileServer(box.HTTPBox())).ServeHTTP(w, r)
 }
 
 func main() {
-	http.HandleFunc("/api", api)
+    http.HandleFunc("/api", api)
+    http.HandleFunc("/", fileHandler)
 
-	box := rice.MustFindBox("static")
-	staticFileServer := http.StripPrefix("/", http.FileServer(box.HTTPBox()))
-	http.Handle("/", staticFileServer)
-
-	log.Fatal(http.ListenAndServe(":8080", nil))
+    log.Fatal(http.ListenAndServe(":8080", nil))
 }

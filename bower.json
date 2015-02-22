@@ -10,10 +10,22 @@
   },
   "overrides": {
     "angular": {
-      "main": "angular.min.js"
+      "main": {
+          "development": "angular.js",
+          "production": "angular.min.js"
+        }
+    },
+    "angular-mocks": {
+      "main": {
+          "development": "angular-mocks.js",
+          "production": ""
+        }
     },
     "angular-ui-router": {
-      "main": "release/angular-ui-router.min.js"
+      "main": {
+          "development": "release/angular-ui-router.js",
+          "production": "release/angular-ui-router.min.js"
+        }
     },
     "components-font-awesome": {
       "main": [

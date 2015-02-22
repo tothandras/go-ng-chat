@@ -1,7 +1,7 @@
 module chat.home {
     'use strict';
 
-    interface IHomeScope {
+    export interface IHomeScope {
         title: string
     }
 
