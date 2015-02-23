@@ -17,3 +17,19 @@ Invoke Docker from the package directory to build an image using the Dockerfile:
 Run a container:
 
 `$ docker run --publish 8080:8080 --name chatapp --rm chat`
+
+### Development
+
+Install dependencies and run gulp
+```
+$ npm install -g bower
+$ npm install -g gulp
+$ npm install && bower install
+$ gulp --watch
+```
+
+Run the server
+
+`$ go run main.go`
+
+Open http://localhost:8080
