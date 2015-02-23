@@ -216,7 +216,7 @@ gulp.task('watch', function() {
         gulp.watch(config.files.typescript.src, ['build-ts']);
         gulp.watch(config.files.typescript.test, ['build-ts']);
         gulp.watch(config.files.template, ['build-ts']);
-        gulp.watch(config.files.index, ['build-ts']);
+        gulp.watch(config.files.index, ['build-index']);
         gulp.watch(config.files.sass, ['build-sass']);
         gulp.watch(config.paths.client + '/lib/**', ['build-lib']);
     }
