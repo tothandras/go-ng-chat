@@ -74,7 +74,7 @@ gulp.task('clean', function() {
 });
 
 gulp.task('lint-ts', function() {
-    return gulp.src(config.files.typescript.src)
+    gulp.src(config.files.typescript.src)
         .pipe(p.plumber())
         .pipe(p.tslint())
         .pipe(p.tslint.report('full'));
@@ -134,7 +134,8 @@ gulp.task('build-ts', ['lint-ts'], function() {
         .pipe(IS_RELEASE_BUILD ? p.uglify() : p.util.noop())
         .pipe(p.insert.prepend(config.banner))
         .pipe(IS_RELEASE_BUILD ? p.rev() : p.sourcemaps.write())
-        .pipe(gulp.dest(config.paths.script, {cwd: config.paths.build}));
+        .pipe(gulp.dest(config.paths.script, {cwd: config.paths.build}))
+        .pipe(p.livereload());
 });
 
 gulp.task('build-lib', function() {
@@ -170,7 +171,8 @@ gulp.task('build-lib', function() {
     font
         .pipe(gulp.dest(config.paths.font, {cwd: config.paths.build}));
 
-    return p.mergeStream(js, css, font);
+    return p.mergeStream(js, css, font)
+        .pipe(p.livereload());
 });
 
 gulp.task('build-sass', function() {
@@ -190,7 +192,8 @@ gulp.task('build-sass', function() {
         .pipe(p.concat('styles.css'))
         .pipe(p.insert.prepend(config.banner))
         .pipe(IS_RELEASE_BUILD ? p.rev() : p.sourcemaps.write())
-        .pipe(gulp.dest(config.paths.style, {cwd: config.paths.build}));
+        .pipe(gulp.dest(config.paths.style, {cwd: config.paths.build}))
+        .pipe(p.livereload());
 });
 
 gulp.task('build-index', ['build-ts', 'build-sass', 'build-lib'], function() {
@@ -201,18 +204,21 @@ gulp.task('build-index', ['build-ts', 'build-sass', 'build-lib'], function() {
     ], {cwd: config.paths.build, read: false});
     return gulp.src(config.files.index)
         .pipe(p.inject(files, {addRootSlash: false}))
-        .pipe(gulp.dest(config.paths.build));
+        .pipe(gulp.dest(config.paths.build))
+        .pipe(p.livereload());
 });
 
 gulp.task('build', ['build-ts', 'build-sass', 'build-lib', 'build-index']);
 
 gulp.task('watch', function() {
     if (WATCH) {
+        p.livereload.listen({quiet: true});
         gulp.watch(config.files.typescript.src, ['build-ts']);
         gulp.watch(config.files.typescript.test, ['build-ts']);
         gulp.watch(config.files.template, ['build-ts']);
         gulp.watch(config.files.index, ['build-ts']);
         gulp.watch(config.files.sass, ['build-sass']);
+        gulp.watch(config.paths.client + '/lib/**', ['build-lib']);
     }
 });
 

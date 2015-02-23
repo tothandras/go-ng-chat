@@ -3,9 +3,15 @@
 
     /* @ngInject */
     function config($locationProvider: ng.ILocationProvider,
-        $urlRouterProvider: ng.ui.IUrlRouterProvider): void {
+        $urlRouterProvider: ng.ui.IUrlRouterProvider,
+        $compileProvider: ng.ICompileProvider,
+        $logProvider: ng.ILogProvider,
+        RELEASE: boolean): void {
+
         $locationProvider.html5Mode(true);
         $urlRouterProvider.otherwise('/home');
+        $compileProvider.debugInfoEnabled(!RELEASE);
+        $logProvider.debugEnabled(!RELEASE);
     }
 
     angular.module('chat').config(config);
