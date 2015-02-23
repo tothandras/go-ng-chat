@@ -1,4 +1,4 @@
-CHAT
+CHAT [![Codeship Status for tothandras/go-ng-chat](https://codeship.com/projects/893627f0-9dc5-0132-46b9-6e77ea26735b/status?branch=master)](https://codeship.com/projects/64613)
 ==
 
 Simple Go (golang) & AngularJS application
