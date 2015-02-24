@@ -33,7 +33,7 @@ module chat.home {
             it('should have a title', (): void => {
                 createController();
                 expect(scope.home.name).toBeDefined();
-                expect(scope.home.name).toBe('Home Controller');
+                expect(scope.home.name).toBe('Chat');
             });
         });
     })();

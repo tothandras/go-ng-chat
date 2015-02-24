@@ -1,5 +1,83 @@
+$main-color: #2ecc71;
+$main-font: 'Roboto';
+
+html, body, ui-view {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
 .home {
+    font-family: $main-font;
+    height: 100%;
+    background: #eee;
+    margin: 0;
+
     .title {
-        
+        color: $main-color;
+        font-weight: 100;
+        margin: 0;
+        font-size: 1.5em;
+        text-align: center;
+        padding-top: 1em;
+        padding-bottom: 0.5em;
+    }
+
+    .messages {
+        overflow-y: scroll;
+        margin: 0 auto;
+        width: 40%;
+        height: 60%;
+        list-style: none;
+        font-size: 1em;
+        padding: 1em;
+        background: #fff;
+        /* border: 1px solid $main-color; */
+
+        .message {
+            margin-bottom: 0.5em;
+            .time {
+                color: $main-color;
+                vertical-align: middle;
+                font-size: 0.5em;
+                font-weight: 800;
+            }
+
+            .content {
+                margin-left: 1em;
+            }
+        }
+    }
+
+    .new-message {
+        position: relative;
+        display: block;
+        width: 40%;
+        margin: 0 auto;
+        padding: 1em;
+
+        input {
+            border: none;
+        }
+
+        input[type=text] {
+            position: absolute;
+            left: 0;
+            width: 80%;
+            height: 30px;
+            margin: 0;
+            padding-top: 0;
+            padding-bottom: 0;
+        }
+
+        input[type=submit] {
+            position: absolute;
+            background: $main-color;
+            color: #fff;
+            right: 0;
+            width: 20%;
+            height: 30px;
+            margin: 0;
+        }
     }
 }

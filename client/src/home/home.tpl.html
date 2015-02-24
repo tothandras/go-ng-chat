@@ -1,3 +1,13 @@
 <div class="home">
     <h1 class="title">{{ home.name }}</h1>
+    <ul class="messages">
+        <li ng-repeat="message in home.messages" class="message">
+            <span class="time">{{ message.time | date: 'HH:mm:ss'}}</span>
+            <span class="content">{{ message.content }}</span>
+        </li>
+    </ul>
+    <form novalidate class="new-message">
+        <input type="text" ng-model="home.message">
+        <input type="submit" ng-click="home.send()" value="Send"/>
+    </form>
 </div>
