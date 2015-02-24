@@ -41,7 +41,7 @@ config.paths = {
     build: 'static',
     script: 'script',
     style: 'style',
-    font: 'font'
+    font: 'fonts'
 };
 config.files = {
     index: config.paths.client + '/' + 'src/index.html',
@@ -104,6 +104,7 @@ gulp.task('build-ts', ['lint-ts'], function() {
 
     // template
     var tpl = gulp.src(config.files.template)
+        .pipe(p.plumber())
         .pipe(p.rename({
             dirname: ''
         }))
@@ -117,6 +118,7 @@ gulp.task('build-ts', ['lint-ts'], function() {
         var tsTestFiles = config.files.typescript.test
             .concat(config.files.typescript.typings);
         gulp.src(tsTestFiles)
+            .pipe(p.plumber())
             .pipe(p.typescript({
                 noExternalResolve: true,
                 sortOutput: true,
@@ -127,6 +129,7 @@ gulp.task('build-ts', ['lint-ts'], function() {
     }
 
     return p.mergeStream(ts.js, cfg, tpl)
+        .pipe(p.plumber())
         .pipe(p.concat('scripts.js'))
         .pipe(IS_RELEASE_BUILD ? p.ngAnnotate({
             single_quotes: true

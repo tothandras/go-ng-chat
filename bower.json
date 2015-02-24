@@ -7,7 +7,9 @@
     "angular-ui-router": "~0.2.13",
     "components-font-awesome": "~4.3.0",
     "angular-mocks": "~1.3.13",
-    "normalize.css": "~3.0.2"
+    "normalize.css": "~3.0.2",
+    "angular-socket-io": "~0.7.0",
+    "socket.io-client": "~1.3.4"
   },
   "overrides": {
     "angular": {
@@ -26,6 +28,18 @@
       "main": {
         "development": "release/angular-ui-router.js",
         "production": "release/angular-ui-router.min.js"
+      }
+    },
+    "socket.io-client": {
+      "main": "socket.io.js"
+    },
+    "angular-socket-io": {
+      "dependencies": {
+        "socket.io-client": "*"
+      },
+      "main": {
+        "development": "socket.js",
+        "production": "socket.min.js"
       }
     },
     "components-font-awesome": {

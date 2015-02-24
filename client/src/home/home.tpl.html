@@ -3,7 +3,7 @@
     <ul class="messages">
         <li ng-repeat="message in home.messages" class="message">
             <span class="time">{{ message.time | date: 'HH:mm:ss'}}</span>
-            <span class="content">{{ message.content }}</span>
+            <span class="content">{{ message.message }}</span>
         </li>
     </ul>
     <form novalidate class="new-message">

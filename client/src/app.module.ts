@@ -1,6 +1,7 @@
-((): void => {
+module c {
     'use strict';
 
+    // register chat module
     angular.module('chat', [
         /* Core */
         /* Generated */
@@ -12,4 +13,4 @@
         /* Third party */
         'ui.router'
     ]);
-})();
+}
